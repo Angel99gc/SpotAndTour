@@ -51,7 +51,10 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
           title: Text(widget.title),
 
         ),
-        body: TabBarView(controller: _tabController, children: _widgetRoutes),
+        body: ListView(
+          children: [
+            TabBarView(controller: _tabController, children: _widgetRoutes),
+        ]),
         bottomNavigationBar:Container(
       color: Colors.blue ,
     child:Row(
