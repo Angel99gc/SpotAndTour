@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'inicioSesion.dart';
-
+import 'home.dart';
 
 class Store extends StatelessWidget {
   final String title ='Spot&Tour C.R.';
@@ -12,7 +12,7 @@ class Store extends StatelessWidget {
           appBar: AppBar(
             leading:  IconButton(
               iconSize: 40,
-              icon: const Icon(Icons.account_box),
+              icon: const Icon(Icons.exit_to_app),
               tooltip: 'Cerrar Sesión',
               onPressed: () {
                 Navigator.push(
@@ -33,7 +33,7 @@ class Store extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              InicioSesion(title: title)));
+                              Home(title: title)));
                 },
               )
             ],
@@ -68,7 +68,7 @@ class Choice {
 }
 
 const List<Choice> choices = const <Choice>[
-  const Choice(title: 'Tour Planificados.', icon: Icons.shopping_cart),
+  const Choice(title: 'Tour Planificados.', icon: Icons.storage),
   const Choice(title: 'Tienda', icon: Icons.store),
   const Choice(title: 'Mi carrito', icon: Icons.shopping_cart),
 ];

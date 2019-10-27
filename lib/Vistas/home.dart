@@ -38,7 +38,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
         appBar: AppBar(
           leading: IconButton(
             iconSize: 40,
-            icon: const Icon(Icons.exit_to_app,textDirection: TextDirection.rtl,),
+            icon: const Icon(Icons.exit_to_app),
             tooltip: 'Cerrar Sesión',
             onPressed: () {
               Navigator.push(
@@ -52,20 +52,31 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
 
         ),
         body: TabBarView(controller: _tabController, children: _widgetRoutes),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _indexRoute,
-          items: [
-            BottomNavigationBarItem(
-                icon: Icon(Icons.shopping_cart), title: new Text('')),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.home), title: new Text('')),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.access_alarm), title: new Text(''))
+        bottomNavigationBar:Container(
+      color: Colors.blue ,
+    child:Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+    children:[
+      TabBar(
+indicatorColor: Colors.white,
+          controller: _tabController,
+          isScrollable: true,
+          tabs: [
+            Tab(
+                icon: Icon(Icons.account_box), text: "Mis eventos"),
+            Tab(
+                icon: Icon(Icons.home), text: "Agregar Eventos"),
+            Tab(
+                icon: Icon(Icons.access_alarm), text: "ad")
           ],
           onTap: (index) {
             _incrementTab(index);
           },
-        ));
+        )
+        ]
+    ))
+
+    );
   }
 
 
