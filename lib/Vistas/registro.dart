@@ -159,6 +159,8 @@ class _Registro extends State<Registro> {
                             _cardMessage(context, 'Usuario Registrado',false);
                             await Future.delayed(Duration(seconds: 2));
                             Navigator.pop(context);
+                            Navigator.pop(context);
+
                           }
                           else if(data.STATUS==400){
                             _cardMessage(context,data.MESSAGE, true);
