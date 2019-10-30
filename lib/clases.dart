@@ -18,3 +18,14 @@ class Usuario{
     this.MESSAGE = message;
   }
 }
+class Registro{
+  String STATUS;
+  String MESSAGE;
+  Registro(this.STATUS);
+  InfoComplete(){
+    print('InfoComplete');
+  }
+  Message(String message){
+    this.MESSAGE=message;
+  }
+}

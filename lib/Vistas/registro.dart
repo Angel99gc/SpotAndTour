@@ -153,11 +153,12 @@ class _Registro extends State<Registro> {
                         Future<dynamic> registro = await firebase.postRegistro(
                             nombre, correo, tipo, telefono, contra);
                         registro.then((data) async{
+                          print(data.STATUS);
                           if(data.status==200){
                             Navigator.pop(context);
                           }
                           else{
-                            _usuarioExistente(context);
+                            _usuarioExistente(context,data.MESSAGE);
                             await Future.delayed(Duration(seconds: 2));
                           }
                         });
@@ -192,7 +193,7 @@ class _Registro extends State<Registro> {
     return null;
   }
 
-  _usuarioExistente(BuildContext context) async {
+  _usuarioExistente(BuildContext context,String message) async {
     return showDialog(
         context: context,
         barrierDismissible: false,
@@ -200,7 +201,7 @@ class _Registro extends State<Registro> {
           {
             return AlertDialog(
               title: Text(
-                'El correo ya existe.',
+                message,
                 textAlign: TextAlign.center,
               ),
               content: SingleChildScrollView(

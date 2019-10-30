@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'clases.dart';
 
 class Firebase{
-  final String _localhost = "172.24.73.178";
+  final String _localhost = "172.24.81.2";
 
   Future<dynamic> postRegistro(String nombre,String correo,String tipo,String telefono,String contra) async {
     var urlP = 'registro';
@@ -17,8 +17,14 @@ class Firebase{
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
     Map<String, dynamic> body = jsonDecode(response.body);
-    Map<String,dynamic>  responseData = body['response'];
-    return response;
+    Registro registroEndpoint = body['status'];
+    if(body['status']==200){
+      registroEndpoint.InfoComplete();
+    }
+    else if(body['status']){
+      registroEndpoint.Message(body['message'] );
+    }
+    return registroEndpoint;
   }
   Future<dynamic> postLogin(String correo,String contra) async {
     var urlP = 'login';

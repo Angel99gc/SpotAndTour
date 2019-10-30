@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'registro.dart';
+import '../firebase.dart';
+import 'store.dart';
 
 class InicioSesion extends StatefulWidget {
   const InicioSesion({Key key, this.title}) : super(key: key);
@@ -89,18 +91,19 @@ class _InicioSesion extends State<InicioSesion> {
                             print(usuario);
                             print(contra);
 
-                            //                      Future<dynamic> inicioSesion = firebase.postLogin(usuario, contra);
-                            //                      inicioSesion.then((data) async{
-                            //                        if(data.LOGIN=="TRUE"){
-                            //                          Navigator.pushReplacement(
-                            //                              context,MaterialPageRoute(builder: (context) =>Home(routeIndex: 0)) );
-                            //                        }
-                            //                        else{
-                            //                          _datosIncorrectos(context);
-                            //                          await Future.delayed(Duration(seconds: 2 ));
-                            //                          Navigator.pop(context);
-                            //                        }
-                            //                      });
+                            Future<dynamic> inicioSesion = firebase.postLogin(usuario, contra);
+                            inicioSesion.then((data) async{
+                              print(data);
+                              if(data.status==200){
+                                Navigator.pushReplacement(
+                                    context,MaterialPageRoute(builder: (context) =>Store()) );
+                              }
+                              else{
+                                _datosIncorrectos(context);
+                                await Future.delayed(Duration(seconds: 2 ));
+                                Navigator.pop(context);
+                              }
+                            });
                           } else {
                             print("Formulario Invalido");
                           }
