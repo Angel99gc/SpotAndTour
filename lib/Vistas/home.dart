@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'inicioSesion.dart';
 import 'store.dart';
+
 class Home extends StatefulWidget {
   const Home({Key key, this.title}) : super(key: key);
   final String title;
@@ -42,47 +43,32 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
             tooltip: 'Cerrar Sesión',
             onPressed: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          Store()));
+                  context, MaterialPageRoute(builder: (context) => Store()));
             },
-          ) ,
+          ),
           title: Text(widget.title),
-
         ),
-        body: ListView(
-          children: [
-            TabBarView(controller: _tabController, children: _widgetRoutes),
+        body: ListView(children: [
+          TabBarView(controller: _tabController, children: _widgetRoutes),
         ]),
-        bottomNavigationBar:Container(
-      color: Colors.blue ,
-    child:Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-    children:[
-      TabBar(
-indicatorColor: Colors.white,
-          controller: _tabController,
-          isScrollable: true,
-          tabs: [
-            Tab(
-                icon: Icon(Icons.account_box), text: "Mis eventos"),
-            Tab(
-                icon: Icon(Icons.home), text: "Agregar Eventos"),
-            Tab(
-                icon: Icon(Icons.access_alarm), text: "ad")
-          ],
-          onTap: (index) {
-            _incrementTab(index);
-          },
-        )
-        ]
-    ))
-
-    );
+        bottomNavigationBar: Container(
+            color: Colors.blue,
+            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              TabBar(
+                indicatorColor: Colors.white,
+                controller: _tabController,
+                isScrollable: true,
+                tabs: [
+                  Tab(icon: Icon(Icons.account_box), text: "Mis eventos"),
+                  Tab(icon: Icon(Icons.home), text: "Agregar Eventos"),
+                  Tab(icon: Icon(Icons.access_alarm), text: "ad")
+                ],
+                onTap: (index) {
+                  _incrementTab(index);
+                },
+              )
+            ])));
   }
-
-
 
   void _incrementTab(index) {
     setState(() {
