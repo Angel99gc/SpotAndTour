@@ -18,10 +18,10 @@ class Usuario{
     this.MESSAGE = message;
   }
 }
-class Registro{
+class endRegistro{
   int STATUS;
   String MESSAGE;
-  Registro(this.STATUS);
+  endRegistro(this.STATUS);
   InfoComplete(){
     print('InfoComplete');
   }

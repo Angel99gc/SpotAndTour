@@ -5,7 +5,7 @@ import 'clases.dart';
 class Firebase{
   final String _localhost = "172.24.81.2";
 
-  Future<dynamic> postRegistro(String nombre,String correo,String tipo,String telefono,String contra) async {
+  Future<endRegistro> postRegistro(String nombre,String correo,String tipo,String telefono,String contra) async {
     var urlP = 'registro';
     var url = Uri.http(this._localhost+':3000', urlP);
 
@@ -17,11 +17,11 @@ class Firebase{
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
     Map<String, dynamic> body = jsonDecode(response.body);
-    Registro registroEndpoint= Registro(body['status']);
+    endRegistro registroEndpoint= endRegistro(body['status']);
     if(body['status']==200){
       registroEndpoint.InfoComplete();
     }
-    else if(body['status']){
+    else if(body['status']==400){
       registroEndpoint.Message(body['message'] );
     }
     return registroEndpoint;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../firebase.dart';
+import '../clases.dart';
 
 class Registro extends StatefulWidget {
   const Registro({Key key, this.title}) : super(key: key);
@@ -150,16 +151,17 @@ class _Registro extends State<Registro> {
                         formKey.currentState.save();
                         print(nombre);
                         print(contra);
-                        Future<dynamic> registro = await firebase.postRegistro(
+                        Future<endRegistro> registro = firebase.postRegistro(
                             nombre, correo, tipo, telefono, contra);
                         registro.then((data) async{
                           print(data.STATUS);
-                          if(data.status==200){
+                          if(data.STATUS==200){
                             Navigator.pop(context);
                           }
-                          else{
+                          else if(data.STATUS==400){
                             _usuarioExistente(context,data.MESSAGE);
                             await Future.delayed(Duration(seconds: 2));
+                            Navigator.pop(context);
                           }
                         });
                       } else {
