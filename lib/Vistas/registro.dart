@@ -156,10 +156,11 @@ class _Registro extends State<Registro> {
                         registro.then((data) async{
                           print(data.STATUS);
                           if(data.STATUS==200){
+                            _cardMessage(context, 'Usuario Registrado',false);
                             Navigator.pop(context);
                           }
                           else if(data.STATUS==400){
-                            _usuarioExistente(context,data.MESSAGE);
+                            _cardMessage(context,data.MESSAGE, true);
                             await Future.delayed(Duration(seconds: 2));
                             Navigator.pop(context);
                           }
@@ -195,7 +196,21 @@ class _Registro extends State<Registro> {
     return null;
   }
 
-  _usuarioExistente(BuildContext context,String message) async {
+  _cardMessage(BuildContext context,String message,bool X) async {
+    Icon icono;
+    if(X){
+      icono = Icon(
+        Icons.clear,
+        color: Colors.red,
+      );
+    }
+    else{
+      icono = Icon(
+        Icons.check,
+        color: Colors.green,
+      );
+    }
+
     return showDialog(
         context: context,
         barrierDismissible: false,
@@ -207,10 +222,7 @@ class _Registro extends State<Registro> {
                 textAlign: TextAlign.center,
               ),
               content: SingleChildScrollView(
-                child: Icon(
-                  Icons.clear,
-                  color: Colors.red,
-                ),
+                child: icono
               ),
             );
           }
