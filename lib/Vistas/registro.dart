@@ -157,6 +157,7 @@ class _Registro extends State<Registro> {
                           print(data.STATUS);
                           if(data.STATUS==200){
                             _cardMessage(context, 'Usuario Registrado',false);
+                            await Future.delayed(Duration(seconds: 2));
                             Navigator.pop(context);
                           }
                           else if(data.STATUS==400){
