@@ -17,7 +17,7 @@ class Firebase{
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
     Map<String, dynamic> body = jsonDecode(response.body);
-    Registro registroEndpoint = body['status'];
+    Registro registroEndpoint= Registro(body['status']);
     if(body['status']==200){
       registroEndpoint.InfoComplete();
     }
