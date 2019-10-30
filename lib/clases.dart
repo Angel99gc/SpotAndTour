@@ -1,5 +1,5 @@
 class Usuario{
-  String STATUS;
+  int STATUS;
   String NOMBRE;
   String CORREO;
   String CONTRA;
@@ -19,7 +19,7 @@ class Usuario{
   }
 }
 class Registro{
-  String STATUS;
+  int STATUS;
   String MESSAGE;
   Registro(this.STATUS);
   InfoComplete(){
