@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'inicioSesion.dart';
 import 'home.dart';
+import 'crearEvento.dart';
+import 'verEventoOrg.dart';
 
-class Store extends StatelessWidget {
-  final String title ='Spot&Tour C.R.';
+class Organizador extends StatelessWidget {
+  final String title ='Organizador';
+
   @override
   Widget build(BuildContext context) {
     return  DefaultTabController(
@@ -15,28 +18,12 @@ class Store extends StatelessWidget {
             icon: const Icon(Icons.exit_to_app),
             tooltip: 'Cerrar Sesión',
             onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          InicioSesion(title: title)));
+              Navigator.popAndPushNamed(
+                context, '/login'
+
+              );
             },
           ) ,
-          title: Center(child:Text(title),),
-          actions: <Widget>[
-            IconButton(
-              iconSize: 40,
-              icon: const Icon(Icons.account_box),
-              tooltip: 'Iniciar Sesión',
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            Home(title: title)));
-              },
-            )
-          ],
           bottom: TabBar(
             isScrollable: true,
             tabs: choices.map((Choice choice) {
@@ -68,9 +55,8 @@ class Choice {
 }
 
 const List<Choice> choices = const <Choice>[
-  const Choice(title: 'Tour Planificados.', icon: Icons.storage),
-  const Choice(title: 'Tienda', icon: Icons.store),
-  const Choice(title: 'Mi carrito', icon: Icons.shopping_cart),
+  const Choice(title: 'Tours Activos', icon: Icons.storage),
+  const Choice(title: 'Tours', icon: Icons.build),
 ];
 
 class ChoiceCard extends StatelessWidget {
@@ -88,6 +74,40 @@ class ChoiceCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+            RaisedButton(
+              padding:
+                EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+              color: Colors.blue[600],
+              child: Text(
+                "Registro de eventos",
+                style: TextStyle(color: Colors.white, fontSize: 25),
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => crearEvento(title: "")
+                  )
+                );
+              },
+            ),
+            RaisedButton(
+              padding:
+              EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+              color: Colors.blue[600],
+              child: Text(
+                "Ver eventos",
+                style: TextStyle(color: Colors.white, fontSize: 25),
+              ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => verEventoOrg()
+                    )
+                );
+              },
+            ),
             Icon(choice.icon, size: 128.0, color: textStyle.color),
             Text(choice.title, style: textStyle),
           ],
