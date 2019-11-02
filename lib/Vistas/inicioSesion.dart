@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'registro.dart';
-import '../firebase.dart';
-import 'store.dart';
+import 'organizador.dart';
 
 class InicioSesion extends StatefulWidget {
   const InicioSesion({Key key, this.title}) : super(key: key);
@@ -39,9 +38,9 @@ class _InicioSesion extends State<InicioSesion> {
                       padding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
                       child: Column(
                         children: <Widget>[
-//                          Image.asset(
-//                            'lib/Imagenes/portada.png',
-//                          ),
+                          Image.asset(
+                            'lib/Imagenes/portada.png',
+                          ),
                           TextFormField(
                             keyboardType: TextInputType.text,
                             decoration: InputDecoration(
@@ -90,20 +89,24 @@ class _InicioSesion extends State<InicioSesion> {
                             formKey.currentState.save();
                             print(usuario);
                             print(contra);
-
-                            Future<dynamic> inicioSesion = firebase.postLogin(usuario, contra);
-                            inicioSesion.then((data) async{
-                              print(data);
-                              if(data.status==200){
-                                Navigator.pushReplacement(
-                                    context,MaterialPageRoute(builder: (context) =>Store()) );
-                              }
-                              else{
-                                _datosIncorrectos(context);
-                                await Future.delayed(Duration(seconds: 2 ));
-                                Navigator.pop(context);
-                              }
-                            });
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Organizador();
+                              )
+                            );
+                            //                      Future<dynamic> inicioSesion = firebase.postLogin(usuario, contra);
+                            //                      inicioSesion.then((data) async{
+                            //                        if(data.LOGIN=="TRUE"){
+                            //                          Navigator.pushReplacement(
+                            //                              context,MaterialPageRoute(builder: (context) =>Home(routeIndex: 0)) );
+                            //                        }
+                            //                        else{
+                            //                          _datosIncorrectos(context);
+                            //                          await Future.delayed(Duration(seconds: 2 ));
+                            //                          Navigator.pop(context);
+                            //                        }
+                            //                      });
                           } else {
                             print("Formulario Invalido");
                           }
