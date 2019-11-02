@@ -92,7 +92,7 @@ class _InicioSesion extends State<InicioSesion> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => Organizador();
+                                builder: (context) => Organizador()
                               )
                             );
                             //                      Future<dynamic> inicioSesion = firebase.postLogin(usuario, contra);
