@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: InicioSesion(title:'Spot&Tours'),
+      home: Store(),
     );
   }
 }

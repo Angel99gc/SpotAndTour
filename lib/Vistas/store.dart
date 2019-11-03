@@ -4,36 +4,37 @@ import 'home.dart';
 
 class Store extends StatelessWidget {
   final String title ='Spot&Tour C.R.';
+  bool isLogged = true;
   @override
   Widget build(BuildContext context) {
     return  DefaultTabController(
         length: choices.length,
         child: Scaffold(
           appBar: AppBar(
-            leading:  IconButton(
+            leading:  isLogged ? IconButton(
               iconSize: 40,
-              icon: const Icon(Icons.exit_to_app),
-              tooltip: 'Cerrar Sesión',
+              icon: const Icon(Icons.person),
+              tooltip: 'Ver Perfil.',
               onPressed: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            InicioSesion(title: title)));
+                            Home(title: title)));
               },
-            ) ,
+            ):null,
             title: Center(child:Text(title),),
             actions: <Widget>[
               IconButton(
                 iconSize: 40,
-                icon: const Icon(Icons.account_box),
-                tooltip: 'Iniciar Sesión',
+                icon: isLogged ? Icon(Icons.account_box):Icon(Icons.exit_to_app),
+                tooltip: isLogged ? 'Iniciar Sesión':'Cerrar Sesión' ,
                 onPressed: () {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              Home(title: title)));
+                              InicioSesion(title: title)));
                 },
               )
             ],
