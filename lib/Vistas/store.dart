@@ -29,7 +29,7 @@ class Store extends StatelessWidget {
                 icon: const Icon(Icons.account_box),
                 tooltip: 'Iniciar Sesión',
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
