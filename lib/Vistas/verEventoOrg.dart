@@ -4,23 +4,23 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import '../firebase.dart';
 
 
-class verEventoOrg extends StatefulWidget {
-  const verEventoOrg({Key key, this.title}) : super(key: key);
+class VerEventoOrg extends StatefulWidget {
+  const VerEventoOrg({Key key, this.title}) : super(key: key);
   final String title;
   @override
-  _verEventoOrg createState() => _verEventoOrg();
+  _VerEventoOrg createState() => _VerEventoOrg();
 }
 
-class _verEventoOrg extends State<verEventoOrg> {
+class _VerEventoOrg extends State<VerEventoOrg> {
   //Variables
-  final format = DateFormat("yyyy-MM-dd HH:mm");
-
-  static String nombre = "";
-  static String ubicacion = "";
-  static int costo;
-  static DateTime fechaInicial;
-  static DateTime fechaFinal;
-  static String descripcion = "";
+//  final format = DateFormat("yyyy-MM-dd HH:mm");
+//
+  static String nombre = "nombre";
+  static String ubicacion = "ubicación";
+  static int costo = 0;
+  static DateTime fechaInicial = DateTime.now();
+  static DateTime fechaFinal = DateTime.now();
+  static String descripcion = "descripción";
 
   static final formKey = GlobalKey<FormState>();
 
@@ -29,10 +29,9 @@ class _verEventoOrg extends State<verEventoOrg> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Padding(
-            padding: EdgeInsets.only(left: 60), child: Text(widget.title)
+        title: Text(
+          "Menu Organizador"
         ),
-
       ),
       backgroundColor: Colors.white,
       body: Container(
@@ -42,96 +41,151 @@ class _verEventoOrg extends State<verEventoOrg> {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                Text(
+                  "Vista Evento Seleccionado:",
+                  style: TextStyle(fontSize: 25),
+                ),
                 Image.asset(
                   'lib/Imagenes/loginImage.png',
+                  width: 200,
+                  height: 200,
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     children: <Widget>[
-                      Text(
-                        "Eventos Organizador",
-                        style: TextStyle(color: Colors.white, fontSize: 25),
-                      ),
                       Row(
+                        //mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Center(
                             child: Text(
-                              "Fila 1",
-                              style: TextStyle(color: Colors.white, fontSize: 25),
+                              "Nombre del lugar: ",
+                              style: TextStyle(fontSize: 20),
                             ),
                           ),
+
+                        ],
+                      ),
+                      Row(
+                        //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
                           Text(
-                            "endpoint",
-                            style: TextStyle(color: Colors.white, fontSize: 25),
-                          )
+                            nombre,
+                            style: TextStyle(fontSize: 17, color: Colors.black54),
+                          ),
+                        ],
+                      ),
+
+                      Row(
+                        //mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Center(
+                            child: Text(
+                              "Ubicación: ",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                          ),
+
                         ],
                       ),
                       Row(
                         children: <Widget>[
-                          Center(
-                            child: Text(
-                             "Fila 2",
-                             style: TextStyle(color: Colors.white, fontSize: 25),
-                            ),
-                          ),
                           Text(
-                            "endpoint",
-                            style: TextStyle(color: Colors.white, fontSize: 25),
-                          )
+                            ubicacion,
+                            style: TextStyle(fontSize: 17, color: Colors.black54),
+                          ),
+                        ],
+                      ),
+
+                      Row(
+                        //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Center(
+                              child: Text(
+                                "Precio: ",
+                                style: TextStyle(fontSize: 20),
+                              )
+                          ),
+
                         ],
                       ),
                       Row(
                         children: <Widget>[
-                          Center(
-                            child: Text(
-                              "Fila 3",
-                              style: TextStyle(color: Colors.white, fontSize: 25),
-                            ),
-                          ),
                           Text(
-                            "endpoint",
-                            style: TextStyle(color: Colors.white, fontSize: 25),
-                          )
+                            costo.toString(),
+                            style: TextStyle(fontSize: 17, color: Colors.black54),
+                          ),
                         ],
                       ),
+
+                      Row(
+                        //mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Center(
+                              child: Text(
+                                "Fecha de inicio: ",
+                                style: TextStyle(fontSize: 20),
+                              )
+                          ),
+
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            fechaInicial.toString(),
+                            style: TextStyle(fontSize: 17, color: Colors.black54),
+                          ),
+                        ],
+                      ),
+
+                      Row(
+                        //mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Center(
+                              child: Text(
+                                "Fecha de conclusión: ",
+                                style: TextStyle(fontSize: 20),
+                              )
+                          ),
+
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            fechaFinal.toString(),
+                            style: TextStyle(fontSize: 17, color: Colors.black54),
+                          ),
+                        ],
+                      ),
+
+                      Row(
+                        //mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Center(
+                              child: Text(
+                                "Descripción: ",
+                                style: TextStyle(fontSize: 20),
+                              )
+                          ),
+
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            descripcion,
+                            style: TextStyle(fontSize: 17, color: Colors.black54),
+                          ),
+                        ],
+                      ),
+
                     ],
-                  ),
+                  )
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 15),
-                  child: RaisedButton(
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                    color: Colors.blue[600],
-                    child: Text(
-                      "Agregar evento",
-                      style: TextStyle(color: Colors.white, fontSize: 25),
-                    ),
-                    onPressed: () async {
-                      if (formKey.currentState.validate()) {
-                        formKey.currentState.save();
-                        //print(nombre);
-                        //print(contra);
-                        /*
-                        Future<dynamic> registro = await firebase.postRegistro(
-                            nombre, correo, tipo, telefono, contra);
-                        //                      registro.then((data) async{
-                        //                        if(data.LOGIN=="TRUE"){
-                        //                          Navigator.pop(context);
-                        //                        }
-                        //                        else{
-                        //                          _usuarioExistente(context);
-                        //                          await Future.delayed(Duration(seconds: 2));
-                        //                          Navigator.pop(context);
-                        //                        }
-                        //                      });
-                        */
-                      } else {
-                        print("Formulario Invalido");
-                      }
-                    },
-                  ),
-                ),
+
+
               ],
             ),
           ],
@@ -140,42 +194,4 @@ class _verEventoOrg extends State<verEventoOrg> {
     );
   }
 
-  static String validarUsuario(String value) {
-    if (value.isEmpty) {
-      return 'Debe rellenar los espacios solicitados.';
-    }
-    return null;
-  }
-
-  static String validarContra(String value) {
-    if (value.isEmpty) {
-      return 'Debe rellenar los espacios solicitados.';
-    }
-    if (value.length < 5) {
-      return 'Contraseña debe tener minimo 5 letras.';
-    }
-    return null;
-  }
-
-  _usuarioExistente(BuildContext context) async {
-    return showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) {
-          {
-            return AlertDialog(
-              title: Text(
-                'El usuario ya existe.',
-                textAlign: TextAlign.center,
-              ),
-              content: SingleChildScrollView(
-                child: Icon(
-                  Icons.clear,
-                  color: Colors.red,
-                ),
-              ),
-            );
-          }
-        });
-  }
 }

@@ -13,6 +13,11 @@ class Organizador extends StatelessWidget {
       length: choices.length,
       child: Scaffold(
         appBar: AppBar(
+          title: Center(
+            child: Text(
+              "Organizador"
+            ),
+          ),
           leading:  IconButton(
             iconSize: 40,
             icon: const Icon(Icons.exit_to_app),
@@ -86,7 +91,7 @@ class ChoiceCard extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => crearEvento(title: "")
+                    builder: (context) => CrearEvento(title: "")
                   )
                 );
               },
@@ -96,14 +101,14 @@ class ChoiceCard extends StatelessWidget {
               EdgeInsets.symmetric(vertical: 10, horizontal: 30),
               color: Colors.blue[600],
               child: Text(
-                "Ver eventos",
+                "Ver evento",
                 style: TextStyle(color: Colors.white, fontSize: 25),
               ),
               onPressed: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => verEventoOrg()
+                        builder: (context) => VerEventoOrg(title: "")
                     )
                 );
               },

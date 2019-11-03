@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tourscr/Vistas/store.dart';
 import 'registro.dart';
 import 'organizador.dart';
 
@@ -39,7 +40,8 @@ class _InicioSesion extends State<InicioSesion> {
                       child: Column(
                         children: <Widget>[
                           Image.asset(
-                            'lib/Imagenes/portada.png',
+                            'lib/Imagenes/loginImage.png',
+                            width: 300,
                           ),
                           TextFormField(
                             keyboardType: TextInputType.text,
@@ -89,12 +91,23 @@ class _InicioSesion extends State<InicioSesion> {
                             formKey.currentState.save();
                             print(usuario);
                             print(contra);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Organizador()
-                              )
-                            );
+
+                            if(usuario == "org") {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Organizador()
+                                  )
+                              );
+                            } else if(usuario == "user") {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Store()
+                                  )
+                              );
+                            }
+
                             //                      Future<dynamic> inicioSesion = firebase.postLogin(usuario, contra);
                             //                      inicioSesion.then((data) async{
                             //                        if(data.LOGIN=="TRUE"){

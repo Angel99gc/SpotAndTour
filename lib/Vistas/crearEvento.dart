@@ -4,22 +4,22 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import '../firebase.dart';
 
 
-class crearEvento extends StatefulWidget {
-  const crearEvento({Key key, this.title}) : super(key: key);
+class CrearEvento extends StatefulWidget {
+  const CrearEvento({Key key, this.title}) : super(key: key);
   final String title;
   @override
-  _crearEvento createState() => _crearEvento();
+  _CrearEvento createState() => _CrearEvento();
 }
 
-class _crearEvento extends State<crearEvento> {
+class _CrearEvento extends State<CrearEvento> {
   //Variables
   final format = DateFormat("yyyy-MM-dd HH:mm");
 
   static String nombre = "";
   static String ubicacion = "";
   static int costo;
-  static DateTime fechaInicial;
-  static DateTime fechaFinal;
+  static DateTime fechaInicial = null;
+  static DateTime fechaFinal = null;
   static String descripcion = "";
 
   static final formKey = GlobalKey<FormState>();
@@ -29,8 +29,9 @@ class _crearEvento extends State<crearEvento> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Padding(
-            padding: EdgeInsets.only(left: 60), child: Text(widget.title)),
+        title: Text(
+            "Menu Organizador"
+        ),
       ),
       backgroundColor: Colors.white,
       body: Form(
@@ -40,13 +41,16 @@ class _crearEvento extends State<crearEvento> {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Image.asset(
-                  'lib/Imagenes/portada.png',
-                ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     children: <Widget>[
+                      Text(
+                        "Registro de Eventos",
+                        style: TextStyle(
+                            color: Colors.black, fontSize: 25
+                        ),
+                      ),
                       TextFormField(
                         keyboardType: TextInputType.text,
                         decoration: InputDecoration(
@@ -120,6 +124,7 @@ class _crearEvento extends State<crearEvento> {
                             return currentValue;
                           }
                         },
+                        //validator: validarFecha,
                         onSaved: (DateTime value) {
                           fechaInicial = value;
                         },
@@ -153,6 +158,7 @@ class _crearEvento extends State<crearEvento> {
                             return currentValue;
                           }
                         },
+                        //validator: validarFecha,
                         onSaved: (DateTime value) {
                           fechaFinal = value;
                         },
@@ -167,7 +173,7 @@ class _crearEvento extends State<crearEvento> {
                             ),
                             labelText: "Descripción:",
                             hintText: "Ingrese una descripción"),
-                        validator: validarContra,
+                        validator: validarUsuario,
                         onSaved: (String value) {
                           descripcion = value;
                         },
@@ -185,10 +191,15 @@ class _crearEvento extends State<crearEvento> {
                       style: TextStyle(color: Colors.white, fontSize: 25),
                     ),
                     onPressed: () async {
+
                       if (formKey.currentState.validate()) {
                         formKey.currentState.save();
-                        //print(nombre);
-                        //print(contra);
+                        print("nombre: "+nombre);
+                        print("ubica: "+ubicacion);
+                        print("precio: "+costo.toString());
+                        print("fechaInicial: "+fechaInicial.toString());
+                        print("fechaFinal: "+fechaFinal.toString());
+                        print("decripcion: "+descripcion);
                         /*
                         Future<dynamic> registro = await firebase.postRegistro(
                             nombre, correo, tipo, telefono, contra);
@@ -216,6 +227,12 @@ class _crearEvento extends State<crearEvento> {
       ),
     );
   }
+  static String validarFecha(DateTime value) {
+    if (value.toString().isEmpty) {
+      return 'Debe rellenar los espacios solicitados.';
+    }
+    return null;
+  }
 
   static String validarUsuario(String value) {
     if (value.isEmpty) {
@@ -224,35 +241,4 @@ class _crearEvento extends State<crearEvento> {
     return null;
   }
 
-  static String validarContra(String value) {
-    if (value.isEmpty) {
-      return 'Debe rellenar los espacios solicitados.';
-    }
-    if (value.length < 5) {
-      return 'Contraseña debe tener minimo 5 letras.';
-    }
-    return null;
-  }
-
-  _usuarioExistente(BuildContext context) async {
-    return showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) {
-          {
-            return AlertDialog(
-              title: Text(
-                'El usuario ya existe.',
-                textAlign: TextAlign.center,
-              ),
-              content: SingleChildScrollView(
-                child: Icon(
-                  Icons.clear,
-                  color: Colors.red,
-                ),
-              ),
-            );
-          }
-        });
-  }
 }
