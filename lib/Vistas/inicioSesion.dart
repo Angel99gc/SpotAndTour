@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'registro.dart';
 import 'organizador.dart';
-
+import '../firebase.dart';
+import 'home.dart';
+import '../clases.dart';
 class InicioSesion extends StatefulWidget {
   const InicioSesion({Key key, this.title}) : super(key: key);
   final String title;
@@ -39,7 +41,7 @@ class _InicioSesion extends State<InicioSesion> {
                       child: Column(
                         children: <Widget>[
                           Image.asset(
-                            'lib/Imagenes/portada.png',
+                            'lib/Imagenes/loginImage.png',
                           ),
                           TextFormField(
                             keyboardType: TextInputType.text,
@@ -87,26 +89,30 @@ class _InicioSesion extends State<InicioSesion> {
                         onPressed: () async {
                           if (formKey.currentState.validate()) {
                             formKey.currentState.save();
-                            print(usuario);
-                            print(contra);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Organizador()
-                              )
-                            );
-                            //                      Future<dynamic> inicioSesion = firebase.postLogin(usuario, contra);
-                            //                      inicioSesion.then((data) async{
-                            //                        if(data.LOGIN=="TRUE"){
-                            //                          Navigator.pushReplacement(
-                            //                              context,MaterialPageRoute(builder: (context) =>Home(routeIndex: 0)) );
-                            //                        }
-                            //                        else{
-                            //                          _datosIncorrectos(context);
-                            //                          await Future.delayed(Duration(seconds: 2 ));
-                            //                          Navigator.pop(context);
-                            //                        }
-                            //                      });
+                            print("preba");
+                            Future<Usuario> inicioSesion = firebase.postLogin(usuario, contra);
+                            inicioSesion.then((data) async{
+
+                              if(data.STATUS==200) {
+                                if (data.TIPO == '') {
+                                  Navigator.pushReplacement(
+                                      context, MaterialPageRoute(
+                                      builder: (context) =>
+                                          Home(title: 'Spot&Tours')));
+                                }
+                                else{
+                                  Navigator.pushReplacement(
+                                      context, MaterialPageRoute(
+                                      builder: (context) =>
+                                          Organizador()));
+                                }
+                              }
+                              else{
+                                _datosIncorrectos(context, data.MESSAGE);
+                                await Future.delayed(Duration(seconds: 2 ));
+                                Navigator.pop(context);
+                              }
+                            });
                           } else {
                             print("Formulario Invalido");
                           }
@@ -145,7 +151,7 @@ class _InicioSesion extends State<InicioSesion> {
     return null;
   }
 
-  _datosIncorrectos(BuildContext context) async {
+  _datosIncorrectos(BuildContext context, String mensaje) async {
     return showDialog(
         context: context,
         barrierDismissible: false,
@@ -153,7 +159,7 @@ class _InicioSesion extends State<InicioSesion> {
           {
             return AlertDialog(
               title: Text(
-                'Usuario o Contraseña Incorrectos.',
+                mensaje,
                 textAlign: TextAlign.center,
               ),
               content: SingleChildScrollView(
