@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'clases.dart';
 
 class Firebase{
-  final String _localhost = "172.24.81.2";
+  final String _localhost = "192.168.1.6";
 
   Future<endRegistro> postRegistro(String nombre,String correo,String tipo,String telefono,String contra) async {
     var urlP = 'registro';
@@ -26,11 +26,11 @@ class Firebase{
     }
     return registroEndpoint;
   }
-  Future<dynamic> postLogin(String correo,String contra) async {
+  Future<Usuario> postLogin(String correo,String contra) async {
     var urlP = 'login';
     var url = Uri.http(this._localhost+':3000', urlP);
 
-
+    print('consulta');
     http.Response response = await http.post(url,
         headers: {"Authorization": "Token","Accept": "application/json"},
         body: {"correo":correo,"contraseña":contra}
@@ -42,12 +42,12 @@ class Firebase{
     Usuario usuario = Usuario(body["status"]);
 
     if(usuario.STATUS == 200) {
-      usuario.InfoComplete(body["nombre"], body["correo"], body["contra"], body["tipo"], body["telefono"]);
+      usuario.InfoComplete(body['data']["nombre"], body['data']["correo"], body['data']["contra"], body['data']["tipo"], body['data']["telefono"]);
     }
     else{
       usuario.Message(body["message"]);
     }
-    return body;
+    return usuario;
   }
 }
 
