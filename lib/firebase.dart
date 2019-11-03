@@ -42,7 +42,7 @@ class Firebase{
     Usuario usuario = Usuario(body["status"]);
 
     if(usuario.STATUS == 200) {
-      usuario.InfoComplete(body["nombre"], body["correo"], body["contra"], body["tipo"], body["telefono"]);
+      usuario.InfoComplete(body['data']["nombre"], body['data']["correo"], body['data']["contra"], body['data']["tipo"], body['data']["telefono"]);
     }
     else{
       usuario.Message(body["message"]);

@@ -4,6 +4,8 @@ import 'organizador.dart';
 import '../firebase.dart';
 import 'home.dart';
 import '../clases.dart';
+import 'store.dart';
+
 class InicioSesion extends StatefulWidget {
   const InicioSesion({Key key, this.title}) : super(key: key);
   final String title;
@@ -94,13 +96,13 @@ class _InicioSesion extends State<InicioSesion> {
                             inicioSesion.then((data) async{
 
                               if(data.STATUS==200) {
-                                if (data.TIPO == '') {
+                                if (data.TIPO == 'Cliente') {
                                   Navigator.pushReplacement(
                                       context, MaterialPageRoute(
                                       builder: (context) =>
-                                          Home(title: 'Spot&Tours')));
+                                          Store()));
                                 }
-                                else{
+                                else if(data.TIPO == 'Organizador'){
                                   Navigator.pushReplacement(
                                       context, MaterialPageRoute(
                                       builder: (context) =>

@@ -37,13 +37,16 @@ class _Registro extends State<Registro> {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Image.asset(
-                  'lib/Imagenes/portada.png',
-                ),
+
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     children: <Widget>[
+                      Icon(
+                        Icons.person_add,
+                        color: Colors.blue[600],
+                        size: 180,
+                      ),
                       TextFormField(
                         keyboardType: TextInputType.text,
                         decoration: InputDecoration(
@@ -86,7 +89,7 @@ class _Registro extends State<Registro> {
                             hintText: "Escriba su número telefónico."),
                         validator: validarUsuario,
                         onSaved: (String value) {
-                          nombre = value;
+                          telefono = value;
                         },
                       ),
                       TextFormField(
@@ -101,7 +104,7 @@ class _Registro extends State<Registro> {
                             hintText: "CLIENTE/ORGANIZADOR"),
                         validator: validarUsuario,
                         onSaved: (String value) {
-                          nombre = value;
+                          tipo = value;
                         },
                       ),
                       TextFormField(
@@ -129,9 +132,9 @@ class _Registro extends State<Registro> {
                             ),
                             labelText: "Confirma tu contraseña:",
                             hintText: "Repite tu contraseña."),
-                        validator: validarContra,
+                        validator: verificarContra,
                         onSaved: (String value) {
-                          contra = value;
+                          confirmContra = value;
                         },
                       ),
                     ],
@@ -147,10 +150,8 @@ class _Registro extends State<Registro> {
                       style: TextStyle(color: Colors.white, fontSize: 25),
                     ),
                     onPressed: () async {
+                      formKey.currentState.save();
                       if (formKey.currentState.validate()) {
-                        formKey.currentState.save();
-                        print(nombre);
-                        print(contra);
                         Future<endRegistro> registro = firebase.postRegistro(
                             nombre, correo, tipo, telefono, contra);
                         registro.then((data) async{
@@ -198,7 +199,19 @@ class _Registro extends State<Registro> {
     }
     return null;
   }
-
+  static String verificarContra(String value) {
+    if (value.isEmpty) {
+      return 'Debe rellenar los espacios solicitados.';
+    }
+    if (value.length < 5) {
+      return 'Contraseña debe tener minimo 5 letras.';
+    }
+    print(contra+'-'+confirmContra);
+    if(contra!=confirmContra){
+      return 'Confirmacion de contraseña erronea.';
+    }
+    return null;
+  }
   _cardMessage(BuildContext context,String message,bool X) async {
     Icon icono;
     if(X){
