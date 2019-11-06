@@ -25,6 +25,17 @@ class _InicioSesion extends State<InicioSesion> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Store(
+                            isLogged: false,
+                            user: null,
+                          )));
+            }),
         title: Center(child: Text(widget.title)),
       ),
       backgroundColor: Colors.grey[500],
@@ -39,7 +50,7 @@ class _InicioSesion extends State<InicioSesion> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                     child: Column(
                       children: <Widget>[
                         Image.asset(
@@ -82,7 +93,7 @@ class _InicioSesion extends State<InicioSesion> {
                     padding: EdgeInsets.symmetric(vertical: 15),
                     child: RaisedButton(
                       padding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                       color: Colors.blue[600],
                       child: Text(
                         "Ingresar",
@@ -92,26 +103,27 @@ class _InicioSesion extends State<InicioSesion> {
                         if (formKey.currentState.validate()) {
                           formKey.currentState.save();
                           print("preba");
-                          Future<Usuario> inicioSesion = firebase.postLogin(usuario, contra);
-                          inicioSesion.then((data) async{
-
-                            if(data.STATUS==200) {
+                          Future<Usuario> inicioSesion =
+                              firebase.postLogin(usuario, contra);
+                          inicioSesion.then((data) async {
+                            if (data.STATUS == 200) {
                               if (data.TIPO == 'Cliente') {
                                 Navigator.pushReplacement(
-                                    context, MaterialPageRoute(
-                                    builder: (context) =>
-                                        Store()));
-                              }
-                              else if(data.TIPO == 'Organizador'){
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Store(
+                                              isLogged: true,
+                                              user: data,
+                                            )));
+                              } else if (data.TIPO == 'Organizador') {
                                 Navigator.pushReplacement(
-                                    context, MaterialPageRoute(
-                                    builder: (context) =>
-                                        Organizador()));
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Organizador()));
                               }
-                            }
-                            else{
+                            } else {
                               _datosIncorrectos(context, data.MESSAGE);
-                              await Future.delayed(Duration(seconds: 2 ));
+                              await Future.delayed(Duration(seconds: 2));
                               Navigator.pop(context);
                             }
                           });

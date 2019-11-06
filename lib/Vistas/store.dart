@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'inicioSesion.dart';
 import 'home.dart';
+import '../clases.dart';
 
 class Store extends StatelessWidget {
+
+
+  const Store({Key key, this.isLogged, this.user}) : super(key: key);
   final String title ='Spot&Tour C.R.';
-  bool isLogged = true;
+
+  final bool isLogged;
+  final Usuario user;
+
+
   @override
   Widget build(BuildContext context) {
     return  DefaultTabController(
@@ -27,7 +35,7 @@ class Store extends StatelessWidget {
             actions: <Widget>[
               IconButton(
                 iconSize: 40,
-                icon: isLogged ? Icon(Icons.account_box):Icon(Icons.exit_to_app),
+                icon: isLogged ? Icon(Icons.exit_to_app):Icon(Icons.person_add),
                 tooltip: isLogged ? 'Iniciar Sesión':'Cerrar Sesión' ,
                 onPressed: () {
                   Navigator.pushReplacement(
@@ -49,12 +57,12 @@ class Store extends StatelessWidget {
             ),
           ),
           body: TabBarView(
-            children: choices.map((Choice choice) {
-              return Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: ChoiceCard(choice: choice),
-              );
-            }).toList(),
+            children: [
+              Text('hola'),
+              Text('hola2'),
+              Text('hola3'),
+
+            ],
           ),
         ),
       );

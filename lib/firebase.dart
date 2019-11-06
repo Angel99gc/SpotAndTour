@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'clases.dart';
 
 class Firebase{
-  final String _localhost = "192.168.1.6";
+  final String _localhost = "172.24.104.119";
 
   Future<endRegistro> postRegistro(String nombre,String correo,String tipo,String telefono,String contra) async {
     var urlP = 'registro';
