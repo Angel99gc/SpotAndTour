@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'inicioSesion.dart';
-import 'home.dart';
+import 'miPerfil.dart';
 import '../clases.dart';
+import 'tours.dart';
 
 class Store extends StatelessWidget {
 
@@ -15,6 +16,19 @@ class Store extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> widgetsChoice = <Widget> [
+      Tours()
+    ];
+    List<Choice> choices = <Choice>[
+      Choice(title: 'Tienda', icon: Icons.store),
+    ];
+    if(isLogged){
+      choices.add(const Choice(title: 'Tour Planificados.', icon: Icons.storage));
+      choices.add(const Choice(title: 'Mi Carrito.', icon: Icons.shopping_cart));
+      widgetsChoice.add(Text('hola'));
+      widgetsChoice.add(Text('hola2'));
+    }
+
     return  DefaultTabController(
         length: choices.length,
         child: Scaffold(
@@ -28,7 +42,7 @@ class Store extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            Home(title: title)));
+                            MiPerfil(user: this.user)));
               },
             ):null,
             title: Center(child:Text(title),),
@@ -57,12 +71,7 @@ class Store extends StatelessWidget {
             ),
           ),
           body: TabBarView(
-            children: [
-              Text('hola'),
-              Text('hola2'),
-              Text('hola3'),
-
-            ],
+            children: widgetsChoice
           ),
         ),
       );
@@ -76,11 +85,6 @@ class Choice {
   final IconData icon;
 }
 
-const List<Choice> choices = const <Choice>[
-  const Choice(title: 'Tour Planificados.', icon: Icons.storage),
-  const Choice(title: 'Tienda', icon: Icons.store),
-  const Choice(title: 'Mi carrito', icon: Icons.shopping_cart),
-];
 
 class ChoiceCard extends StatelessWidget {
   const ChoiceCard({Key key, this.choice}) : super(key: key);

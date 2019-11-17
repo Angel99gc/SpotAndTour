@@ -152,6 +152,7 @@ class _InicioSesion extends State<InicioSesion> {
                   MaterialPageRoute(
                       builder: (context) => Registro(title: "Registro")));
             },
+            colorBrightness: Brightness.light,
           ),
         ],
       ),

@@ -3,16 +3,16 @@ import 'dart:convert';
 import 'clases.dart';
 
 class Firebase{
-  final String _localhost = "172.24.104.119";
+  final String _localhost = "192.168.1.7";
 
-  Future<endRegistro> postRegistro(String nombre,String correo,String tipo,String telefono,String contra) async {
+  Future<endRegistro> postRegistro(String nombre,String correo,String usuario,String telefono,String contra,String tipo) async {
     var urlP = 'registro';
     var url = Uri.http(this._localhost+':3000', urlP);
 
 
     http.Response response = await http.post(url,
         headers: {"Authorization": "Token","Accept": "application/json"},
-        body: {"nombre": nombre,"correo":correo,"tipo":tipo,"telefono":telefono,"contraseña":contra}
+        body: {"nombre": nombre,"correo":correo,"usuario":usuario,"telefono":telefono,"contraseña":contra,"tipo":tipo}
         );
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
@@ -26,14 +26,14 @@ class Firebase{
     }
     return registroEndpoint;
   }
-  Future<Usuario> postLogin(String correo,String contra) async {
+  Future<Usuario> postLogin(String user,String contra) async {
     var urlP = 'login';
     var url = Uri.http(this._localhost+':3000', urlP);
 
     print('consulta');
     http.Response response = await http.post(url,
         headers: {"Authorization": "Token","Accept": "application/json"},
-        body: {"correo":correo,"contraseña":contra}
+        body: {"usuario":user,"contraseña":contra}
     );
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
@@ -42,13 +42,40 @@ class Firebase{
     Usuario usuario = Usuario(body["status"]);
 
     if(usuario.STATUS == 200) {
-      usuario.InfoComplete(body['data']["nombre"], body['data']["correo"], body['data']["contra"], body['data']["tipo"], body['data']["telefono"]);
+      usuario.InfoComplete(body['data']["usuario"],body['data']["nombre"], body['data']["correo"], body['data']["contraseña"], body['data']["tipo"], body['data']["telefono"]);
     }
     else{
       usuario.Message(body["message"]);
     }
     return usuario;
   }
+
+//  Future<List<Evento>> getEventos(user) async {
+//    List<Evento> eventos = [];
+//
+//    var urlP = 'getEventos';
+//    var url = Uri.http(this._localhost+":3000",urlP);
+//    print(url);
+//    http.Response response = await http.get(url,
+//        headers: {"Autorization": "token","Accept": "application/json",'user':user},
+//        );
+//    print('Response status: ${response.statusCode}');
+//    Map<String, dynamic> body = jsonDecode(response.body);
+//    print(body);
+//    List<dynamic> eventosEnd = body['asd'];
+//    print(body);
+//    if(body['status'] == 200) {
+//      for(var eventoEnd in eventosEnd){
+//        Evento evento = Evento();
+//        eventos.add(evento);
+//      }    }
+//    else{
+//      usuario.Message(body["message"]);
+//    }
+//    print(eventosEnd);
+//
+//    return eventos;
+//  }
 }
 
 Firebase firebase = Firebase();

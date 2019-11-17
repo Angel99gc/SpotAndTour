@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'Vistas/inicioSesion.dart';
 import 'Vistas/home.dart';
 import 'Vistas/store.dart';
+import 'Vistas/miPerfil.dart';
 
 void main() => runApp(MyApp());
 

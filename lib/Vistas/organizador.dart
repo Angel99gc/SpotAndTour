@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'inicioSesion.dart';
-import 'home.dart';
+import 'store.dart';
 import 'crearEvento.dart';
 import 'verEventoOrg.dart';
 
@@ -23,10 +23,8 @@ class Organizador extends StatelessWidget {
             icon: const Icon(Icons.exit_to_app),
             tooltip: 'Cerrar Sesión',
             onPressed: () {
-              Navigator.popAndPushNamed(
-                context, '/login'
-
-              );
+              Navigator.pushReplacement(
+                  context, MaterialPageRoute(builder: (context) => Store(user: null,isLogged: false,)));
             },
           ) ,
           bottom: TabBar(

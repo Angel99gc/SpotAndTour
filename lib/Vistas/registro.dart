@@ -15,7 +15,7 @@ class _Registro extends State<Registro> {
   static String nombre = "";
   static String correo = "";
   static String telefono = "";
-  static String tipo = "";
+  static String usuario = "";
   static String contra = "";
   static String confirmContra = "";
 
@@ -43,7 +43,7 @@ class _Registro extends State<Registro> {
                   child: Column(
                     children: <Widget>[
                       Icon(
-                        Icons.person_add,
+                        Icons.group_add,
                         color: Colors.blue[600],
                         size: 180,
                       ),
@@ -55,7 +55,22 @@ class _Registro extends State<Registro> {
                               color: Colors.blue[600],
                               size: 30,
                             ),
-                            labelText: "Nombre:",
+                            labelText: "Usuario:",
+                            hintText: "Escriba su usuario."),
+                        validator: validarUsuario,
+                        onSaved: (String value) {
+                          usuario = value;
+                        },
+                      ),
+                      TextFormField(
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                            icon: Icon(
+                              Icons.account_circle,
+                              color: Colors.blue[600],
+                              size: 30,
+                            ),
+                            labelText: "Nombre Completo:",
                             hintText: "Escriba su nombre completo."),
                         validator: validarUsuario,
                         onSaved: (String value) {
@@ -92,21 +107,7 @@ class _Registro extends State<Registro> {
                           telefono = value;
                         },
                       ),
-                      TextFormField(
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                            icon: Icon(
-                              Icons.account_circle,
-                              color: Colors.blue[600],
-                              size: 30,
-                            ),
-                            labelText: "Tipo:",
-                            hintText: "CLIENTE/ORGANIZADOR"),
-                        validator: validarUsuario,
-                        onSaved: (String value) {
-                          tipo = value;
-                        },
-                      ),
+
                       TextFormField(
                         obscureText: true,
                         decoration: InputDecoration(
@@ -153,7 +154,7 @@ class _Registro extends State<Registro> {
                       formKey.currentState.save();
                       if (formKey.currentState.validate()) {
                         Future<endRegistro> registro = firebase.postRegistro(
-                            nombre, correo, tipo, telefono, contra);
+                            nombre, correo, usuario, telefono, contra,"Cliente");
                         registro.then((data) async{
                           print(data.STATUS);
                           if(data.STATUS==200){
