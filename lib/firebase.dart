@@ -77,6 +77,54 @@ class Firebase{
     print(eventos);
     return eventos;
   }
+  Future<List<LineaTour>> myTours(String user, String solicitud) async {
+    List<LineaTour> eventos = [];
+
+    var urlP = 'getMyTours';
+    var url = Uri.http(this._localhost+":3000",urlP);
+    print(url);
+    http.Response response = await http.post(url,
+      headers: {"Autorization": "token","Accept": "application/json"},
+      body: {'usuario':user, 'solicitud':solicitud,}
+    );
+    print('Response status: ${response.statusCode}');
+    Map<String, dynamic> body = jsonDecode(response.body);
+    List<dynamic> eventosEnd = body['data'];
+    if(body['status'] == 200) {
+      for(var data in eventosEnd){
+        LineaTour evento = LineaTour(data);
+        eventos.add(evento);
+      }
+    }
+    else{
+      LineaTour evento = LineaTour(body['status']);
+      eventos.add(evento);
+    }
+    print(eventos);
+    return eventos;
+  }
+  Future<Usuario> buyTour(String user) async {
+
+    var urlP = 'buyTour';
+    var url = Uri.http(this._localhost+":3000",urlP);
+    print(url);
+    http.Response response = await http.post(url,
+        headers: {"Autorization": "token","Accept": "application/json"},
+        body: {'usuario':user,}
+    );
+    print('Response status: ${response.statusCode}');
+    Map<String, dynamic> body = jsonDecode(response.body);
+    Usuario usuario = Usuario(body['status']);
+
+    if(body['status'] == 200) {
+        usuario.InfoComplete(body['data']["usuario"],body['data']["nombre"], body['data']["correo"], body['data']["contraseña"], body['data']["tipo"], body['data']["telefono"]);
+    }
+    else{
+      usuario.Message(body['message']);
+    }
+
+    return usuario;
+  }
 
   DateTime stringToDatetime(String string){
     DateTime date = DateTime.parse(string);

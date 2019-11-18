@@ -4,8 +4,9 @@ import '../clases.dart';
 import 'verEventoOrg.dart';
 
 class Tours extends StatefulWidget {
-  const Tours({Key key}) : super(key: key);
-
+  const Tours({Key key, this.user, this.myTours}) : super(key: key);
+  final String user;
+  final bool myTours;
   @override
   _Tours createState() => _Tours();
 }
@@ -17,7 +18,7 @@ class _Tours extends State<Tours> {
   Widget build(BuildContext context) {
     return Container(
       child: FutureBuilder(
-        future: firebase.getTour(),
+        future: widget.myTours ? firebase.myTours(widget.user,'comprados'):firebase.getTour(),
         builder: (BuildContext context, AsyncSnapshot data) {
           switch (data.connectionState) {
             case ConnectionState.none:
@@ -35,7 +36,7 @@ class _Tours extends State<Tours> {
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>VerEventoOrg(evento:data.data[index])));
                       },
-                      child: EventoCard(evento:data.data[index], tipo:'store')
+                      child: widget.myTours ? linea(evento: data.data[index].NOMBRE,):EventoCard(evento:data.data[index], tipo:'store')
                     );
                   });
           }
@@ -45,7 +46,16 @@ class _Tours extends State<Tours> {
     );
   }
 }
+class linea extends StatelessWidget {
+  const linea({Key key, this.evento}) : super(key: key);
 
+  final String evento;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(leading:Text(evento),trailing: Text('1'),);
+  }
+}
 class EventoCard extends StatelessWidget {
    const EventoCard({Key key, this.evento, this.tipo}) : super(key: key);
 
@@ -54,6 +64,7 @@ class EventoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Card(
       margin:
       EdgeInsets.symmetric(vertical: 10, horizontal: 20),

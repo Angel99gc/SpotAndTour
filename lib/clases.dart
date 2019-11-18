@@ -48,4 +48,10 @@ class Evento{
   Message(String message){
     this.MESSAGE = message;
   }
+
+}
+class LineaTour{
+
+  String NOMBRE;
+  LineaTour(this.NOMBRE);
 }

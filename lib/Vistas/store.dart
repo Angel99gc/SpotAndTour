@@ -3,7 +3,7 @@ import 'inicioSesion.dart';
 import 'miPerfil.dart';
 import '../clases.dart';
 import 'tours.dart';
-
+import 'carrito.dart';
 class Store extends StatelessWidget {
 
 
@@ -17,7 +17,8 @@ class Store extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> widgetsChoice = <Widget> [
-      Tours()
+      Tours(user: "", myTours: false,),
+
     ];
     List<Choice> choices = <Choice>[
       Choice(title: 'Tienda', icon: Icons.store),
@@ -25,8 +26,8 @@ class Store extends StatelessWidget {
     if(isLogged){
       choices.add(const Choice(title: 'Tour Planificados.', icon: Icons.storage));
       choices.add(const Choice(title: 'Mi Carrito.', icon: Icons.shopping_cart));
-      widgetsChoice.add(Text('hola'));
-      widgetsChoice.add(Text('hola2'));
+      widgetsChoice.add(Tours(user:this.user.USUARIO, myTours: true,));
+      widgetsChoice.add(Carrito(user: this.user.USUARIO,));
     }
 
     return  DefaultTabController(
