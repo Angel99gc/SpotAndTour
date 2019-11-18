@@ -102,7 +102,6 @@ class _InicioSesion extends State<InicioSesion> {
                       onPressed: () async {
                         if (formKey.currentState.validate()) {
                           formKey.currentState.save();
-                          print("preba");
                           Future<Usuario> inicioSesion =
                               firebase.postLogin(usuario, contra);
                           inicioSesion.then((data) async {

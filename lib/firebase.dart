@@ -5,26 +5,26 @@ import 'clases.dart';
 class Firebase{
   final String _localhost = "192.168.1.7";
 
-  Future<endRegistro> postRegistro(String nombre,String correo,String usuario,String telefono,String contra,String tipo) async {
+  Future<Usuario> postRegistro(String nombre,String correo,String usuario,String telefono,String contra,String tipo) async {
     var urlP = 'registro';
     var url = Uri.http(this._localhost+':3000', urlP);
 
 
     http.Response response = await http.post(url,
         headers: {"Authorization": "Token","Accept": "application/json"},
-        body: {"nombre": nombre,"correo":correo,"usuario":usuario,"telefono":telefono,"contraseña":contra,"tipo":tipo}
+        body: {"nombre": nombre,"correo":correo,"usuario":usuario,"telefono":telefono,"contraseña":contra,"tipo":tipo,'condicion':'editar'}
         );
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
     Map<String, dynamic> body = jsonDecode(response.body);
-    endRegistro registroEndpoint= endRegistro(body['status']);
+    Usuario user = Usuario(body['status']);
     if(body['status']==200){
-      registroEndpoint.InfoComplete();
+      user.InfoComplete(body['data']["usuario"],body['data']["nombre"], body['data']["correo"], body['data']["contraseña"], body['data']["tipo"], body['data']["telefono"]);
     }
     else if(body['status']==400){
-      registroEndpoint.Message(body['message'] );
+      user.Message(body['message'] );
     }
-    return registroEndpoint;
+    return user;
   }
   Future<Usuario> postLogin(String user,String contra) async {
     var urlP = 'login';
@@ -50,32 +50,38 @@ class Firebase{
     return usuario;
   }
 
-//  Future<List<Evento>> getEventos(user) async {
-//    List<Evento> eventos = [];
-//
-//    var urlP = 'getEventos';
-//    var url = Uri.http(this._localhost+":3000",urlP);
-//    print(url);
-//    http.Response response = await http.get(url,
-//        headers: {"Autorization": "token","Accept": "application/json",'user':user},
-//        );
-//    print('Response status: ${response.statusCode}');
-//    Map<String, dynamic> body = jsonDecode(response.body);
-//    print(body);
-//    List<dynamic> eventosEnd = body['asd'];
-//    print(body);
-//    if(body['status'] == 200) {
-//      for(var eventoEnd in eventosEnd){
-//        Evento evento = Evento();
-//        eventos.add(evento);
-//      }    }
-//    else{
-//      usuario.Message(body["message"]);
-//    }
-//    print(eventosEnd);
-//
-//    return eventos;
-//  }
+  Future<List<Evento>> getTour() async {
+    List<Evento> eventos = [];
+
+    var urlP = 'getTour';
+    var url = Uri.http(this._localhost+":3000",urlP);
+    print(url);
+    http.Response response = await http.post(url,
+        headers: {"Autorization": "token","Accept": "application/json"},
+        );
+    print('Response status: ${response.statusCode}');
+    Map<String, dynamic> body = jsonDecode(response.body);
+    List<dynamic> eventosEnd = body['data'];
+    if(body['status'] == 200) {
+      for(var data in eventosEnd){
+        Evento evento = Evento(body['status']);
+        evento.InfoComplete(data['nombre'], int.parse(data['costo']), data['descripcion'], stringToDatetime(data['fechaInicial']), stringToDatetime(data['fechaFinal']), data['organizador'],data['lugar'], data['participantes']);
+        eventos.add(evento);
+      }
+    }
+    else{
+      Evento evento = Evento(body['status']);
+      evento.Message(body["message"]);
+      eventos.add(evento);
+    }
+    print(eventos);
+    return eventos;
+  }
+
+  DateTime stringToDatetime(String string){
+    DateTime date = DateTime.parse(string);
+    return date;
+  }
 }
 
 Firebase firebase = Firebase();

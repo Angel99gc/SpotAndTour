@@ -106,7 +106,7 @@ class ChoiceCard extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => VerEventoOrg(title: "")
+                        builder: (context) => VerEventoOrg()
                     )
                 );
               },

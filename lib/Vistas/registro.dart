@@ -153,9 +153,9 @@ class _Registro extends State<Registro> {
                     onPressed: () async {
                       formKey.currentState.save();
                       if (formKey.currentState.validate()) {
-                        Future<endRegistro> registro = firebase.postRegistro(
+                        Future<Usuario> registroEnd = firebase.postRegistro(
                             nombre, correo, usuario, telefono, contra,"Cliente");
-                        registro.then((data) async{
+                        registroEnd.then((data) async{
                           print(data.STATUS);
                           if(data.STATUS==200){
                             _cardMessage(context, 'Usuario Registrado',false);

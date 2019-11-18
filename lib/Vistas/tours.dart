@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../firebase.dart';
 import '../clases.dart';
+import 'verEventoOrg.dart';
 
 class Tours extends StatefulWidget {
   const Tours({Key key}) : super(key: key);
@@ -16,74 +17,25 @@ class _Tours extends State<Tours> {
   Widget build(BuildContext context) {
     return Container(
       child: FutureBuilder(
-        //future: firebase.getEventos(),
+        future: firebase.getTour(),
         builder: (BuildContext context, AsyncSnapshot data) {
           switch (data.connectionState) {
-            case ConnectionState.done:
+            case ConnectionState.none:
               return Text('Press button to start.');
             case ConnectionState.active:
             case ConnectionState.waiting:
               return Center(child: CircularProgressIndicator());
-            case ConnectionState.none:
+            case ConnectionState.done:
+              if (data.hasError) return Text('Error: ${data.error}');
+              if (data.data.isEmpty) return Center(child:Column(mainAxisAlignment: MainAxisAlignment.center,children:[Icon(Icons.description,size: 100,),Text("No hay eventos")]));
               return ListView.builder(
-                  itemCount: 2,
+                  itemCount: data.data.length,
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
                       onTap: () {
-                        //NAVEGAR AL MODAL CON TODA LA INFORMACION
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>VerEventoOrg(evento:data.data[index])));
                       },
-                      child: Card(
-                        margin:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.red,
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                left: 10, right: 10, top: 40, bottom: 5),
-                            child: Card(
-                                child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Column(
-                                    children: <Widget>[
-                                      Row(
-                                        children: <Widget>[
-                                          Padding(padding: EdgeInsets.only(left: 3,top: 3),child:Text('Evento:')),
-                                          Padding(padding: EdgeInsets.only(left: 3,top: 3),child:Text('Salon')),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: <Widget>[
-                                          Padding(padding: EdgeInsets.only(left: 3,top: 3),child:Text('Lugar:')),
-                                          Padding(padding: EdgeInsets.only(left: 3,top: 3),child:Text('Salon')),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: <Widget>[
-                                          Padding(padding: EdgeInsets.only(left: 3,top: 3),child:Text('Costo:')),
-                                          Padding(padding: EdgeInsets.only(left: 3,top: 3),child:Text('Salon')),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: <Widget>[
-                                          Padding(padding: EdgeInsets.only(left: 3,top: 3),child:Text('Fecha:')),
-                                          Padding(padding: EdgeInsets.only(left: 3,top: 3),child:Text('Salon')),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Icon(
-                                  Icons.arrow_forward_ios,
-                                  size: 30,
-                                )
-                              ],
-                            )),
-                          ),
-                        ),
-                      ),
+                      child: EventoCard(evento:data.data[index], tipo:'store')
                     );
                   });
           }
@@ -121,25 +73,25 @@ class EventoCard extends StatelessWidget {
                         Row(
                           children: <Widget>[
                             Padding(padding: EdgeInsets.only(left: 3,top: 3),child:Text('Evento:')),
-                            Padding(padding: EdgeInsets.only(left: 3,top: 3),child:Text('Salon')),
+                            Padding(padding: EdgeInsets.only(left: 3,top: 3),child:Text(this.evento.NOMBRE)),
                           ],
                         ),
                         Row(
                           children: <Widget>[
                             Padding(padding: EdgeInsets.only(left: 3,top: 3),child:Text('Lugar:')),
-                            Padding(padding: EdgeInsets.only(left: 3,top: 3),child:Text('Salon')),
+                            Padding(padding: EdgeInsets.only(left: 3,top: 3),child:Text(this.evento.LUGAR)),
                           ],
                         ),
                         Row(
                           children: <Widget>[
                             Padding(padding: EdgeInsets.only(left: 3,top: 3),child:Text('Costo:')),
-                            Padding(padding: EdgeInsets.only(left: 3,top: 3),child:Text('Salon')),
+                            Padding(padding: EdgeInsets.only(left: 3,top: 3),child:Text(this.evento.COSTO.toString())),
                           ],
                         ),
                         Row(
                           children: <Widget>[
                             Padding(padding: EdgeInsets.only(left: 3,top: 3),child:Text('Fecha:')),
-                            Padding(padding: EdgeInsets.only(left: 3,top: 3),child:Text('Salon')),
+                            Padding(padding: EdgeInsets.only(left: 3,top: 3),child:Text(dateToString(this.evento.FECHAINICIAL))),
                           ],
                         ),
                       ],
@@ -154,5 +106,22 @@ class EventoCard extends StatelessWidget {
         ),
       ),
     );
+  }
+  dateToString(DateTime date){
+    String ano = date.toIso8601String().substring(0, 4);
+    String mes = date.toIso8601String().substring(5, 7);
+    String dia = date.toIso8601String().substring(8, 10);
+    String hora = date.toIso8601String().substring(11,13);
+    String minutos = date.toIso8601String().substring(14,16);
+    int horaInt = int.parse(hora);
+    if(horaInt>12){
+      horaInt = horaInt -12;
+      hora = horaInt.toString();
+      return mes+'/'+dia+'/'+ano+'  '+hora+':'+minutos+' p.m.';
+    }
+    else{
+      return mes+'/'+dia+'/'+ano+'  '+hora+':'+minutos+' a.m.';
+
+    }
   }
 }

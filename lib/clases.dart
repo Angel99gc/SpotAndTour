@@ -20,17 +20,7 @@ class Usuario{
     this.MESSAGE = message;
   }
 }
-class endRegistro{
-  int STATUS;
-  String MESSAGE;
-  endRegistro(this.STATUS);
-  InfoComplete(){
-    print('InfoComplete');
-  }
-  Message(String message){
-    this.MESSAGE=message;
-  }
-}
+
 class Evento{
   int STATUS;
   String MESSAGE;
@@ -38,24 +28,22 @@ class Evento{
   String NOMBRE;
   int COSTO;
   String DESCRIPCION;
-  String FECHAINICIAL;
-  String FECHAFINAL;
+  DateTime FECHAINICIAL;
+  DateTime FECHAFINAL;
   String NOM_ORGANIZADOR;
   String LUGAR;
-  List<Usuario> PARTICIPANTES;
+  List<String> PARTICIPANTES;
 
   Evento(this.STATUS);
-  InfoComplete(String nombre,int costo, String descripcion, String fechainicial, String fechafinal,String lugar, List<Usuario> participantes){
+  InfoComplete(String nombre,int costo, String descripcion, DateTime fechainicial, DateTime fechafinal,String organizador,String lugar, List<String> participantes){
     this.NOMBRE = nombre;
     this.COSTO = costo;
     this.DESCRIPCION = descripcion;
     this.FECHAINICIAL = fechainicial;
     this.FECHAFINAL = fechafinal;
-    this.NOM_ORGANIZADOR = fechafinal;
+    this.NOM_ORGANIZADOR = organizador;
     this.LUGAR = lugar;
     this.PARTICIPANTES = participantes;
-
-
   }
   Message(String message){
     this.MESSAGE = message;
